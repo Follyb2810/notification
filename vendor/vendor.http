@@ -1,0 +1,36 @@
+@Vendor = http://localhost:4000
+
+### See the routes this vendor can send
+GET {{Vendor}}/
+
+### Send a text-message webhook. An empty body uses a sample payload and a new reference.
+POST {{Vendor}}/webhooks/text-messages
+Content-Type: application/json
+
+{
+  "phoneNumber": "+2348012345678",
+  "message": "Your policy renewal is due.",
+  "senderId": "Notify"
+}
+
+### Send an email webhook
+POST {{Vendor}}/webhooks/emails
+Content-Type: application/json
+
+{
+  "to": "client@example.com",
+  "subject": "Policy renewal",
+  "body": "Your policy renewal is due.",
+  "isHtml": false
+}
+
+### Send a delivery receipt. Set vendorReference to the reference returned above.
+POST {{Vendor}}/webhooks/delivery-receipts
+Content-Type: application/json
+
+{
+  "vendorReference": "vendor-sms-001",
+  "channel": "Sms",
+  "delivered": true,
+  "detail": "Delivered to handset"
+}

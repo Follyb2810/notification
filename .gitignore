@@ -1,0 +1,11 @@
+bin/
+obj/
+.vs/
+*.user
+appsettings.*.local.json
+node_modules/
+.next/
+app/.env.local
+node_modules/
+.next/
+app/.env.local

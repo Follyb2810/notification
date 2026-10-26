@@ -1,0 +1,54 @@
+@HostAddress = http://localhost:5218
+@secret = dev-notification-secret
+
+### Health
+GET {{HostAddress}}/health
+
+### Vendor webhook: text message / SMS
+POST {{HostAddress}}/api/webhooks/text-messages
+Content-Type: application/json
+X-Notification-Secret: {{secret}}
+
+{
+  "reference": "vendor-sms-001",
+  "phoneNumber": "+2348012345678",
+  "message": "Your policy renewal is due.",
+  "senderId": "Notify"
+}
+
+### Vendor webhook: email
+POST {{HostAddress}}/api/webhooks/emails
+Content-Type: application/json
+X-Notification-Secret: {{secret}}
+
+{
+  "reference": "vendor-email-001",
+  "to": "client@example.com",
+  "subject": "Policy renewal",
+  "body": "Your policy renewal is due.",
+  "isHtml": false
+}
+
+### Delivery receipt
+POST {{HostAddress}}/api/webhooks/delivery-receipts
+Content-Type: application/json
+X-Notification-Secret: {{secret}}
+
+{
+  "vendorReference": "vendor-sms-001",
+  "channel": "Sms",
+  "delivered": true,
+  "detail": "Delivered to handset"
+}
+
+### Text message counts
+GET {{HostAddress}}/api/text-messages/summary
+X-Notification-Secret: {{secret}}
+
+### Email counts
+GET {{HostAddress}}/api/emails/summary
+X-Notification-Secret: {{secret}}
+
+### Combined counts
+GET {{HostAddress}}/api/message-reports/summary
+X-Notification-Secret: {{secret}}
